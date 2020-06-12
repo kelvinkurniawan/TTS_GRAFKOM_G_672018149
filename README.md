@@ -1,4 +1,4 @@
-# GrafkomG-SA2020-Tugas2
+# TTS GRAFKOM G
 
 Nama : Kelvin Kurniawan Oktavianto
 NIM : 672018149
