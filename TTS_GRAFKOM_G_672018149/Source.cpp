@@ -65,7 +65,7 @@ void backgroundTexture() {
 	glPointSize(3);
 
 	glBegin(GL_POINTS);
-	glColor3ub(43, 43, 43);
+	glColor3ub(82, 82, 82);
 	for (int i = orthoMin; i < orthoMax; i++) {
 		for (int j = orthoMin; j < orthoMax; j++) {
 			if (i % 3 == 0) {
@@ -79,14 +79,29 @@ void backgroundTexture() {
 }
 
 void renderObject() {
-	backgroundTexture();
-	pattern(8, 0, 0);
-	subPattern(4, 4, 0);
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; i++) {
+	float posX = 0;
+	float posY = 0;
 
+	backgroundTexture();
+
+	for (int i = 0; i < 15; i++) {
+		posX = 0;
+		for (int j = 0; j < 15; j++) {
+			if (i % 2 == 0) {
+				pattern(8, -50 + posX, orthoMin + posY);
+				subPattern(4, -46 + posX, orthoMin + posY);
+			}
+			else {
+				pattern(8, -60 + posX, orthoMin + posY);
+				subPattern(4, -56 + posX, orthoMin + posY);
+			}
+
+			posX += 20;
 		}
+
+		posY += 12;
 	}
+
 	glFlush();
 }
 
