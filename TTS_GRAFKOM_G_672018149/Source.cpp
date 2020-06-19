@@ -2,9 +2,20 @@
 #include <math.h>
 #include <GL/freeglut.h>
 
+class myColor {
+public:
+	GLfloat PrimaryColor[3] = { 1, 1, 1 };
+	GLubyte SecondaryColor[3] = { 51, 51, 51 };
+	GLfloat Black[3] = { 0,0,0 };
+	GLubyte _options_canvasGrad[3] = { 41,41,41 };
+};
 
 class myCanvas {
 public: 
+	float windowHeight = 600;
+	float windowWidth = 600;
+	float windowPositionX = 360;
+	float windowPositionY = 0;
 	float orthoMin = -50;
 	float orthoMax = 50;
 	float parentSize = 8;
@@ -17,15 +28,18 @@ public:
 	int marginVertical = 15;
 
 	void applyCanvas() {
+
+		myColor color;
+
 		glBegin(GL_QUADS); 
 		{
-			glColor3ub(0, 0, 0);
+			glColor3fv(color.Black);
 			glVertex2f(orthoMin, orthoMin);
-			glColor3ub(0, 0, 0);
+			glColor3fv(color.Black);
 			glVertex2f(orthoMin, orthoMax);
-			glColor3ub(43, 43, 43);
+			glColor3ubv(color._options_canvasGrad);
 			glVertex2f(orthoMax, orthoMax);
-			glColor3ub(0, 0, 0);
+			glColor3fv(color.Black);
 			glVertex2f(orthoMax, orthoMin);
 		}
 		glEnd();
@@ -37,8 +51,11 @@ public :
 	float rectTextureSize = 0.5;
 
 	void pattern(int size, int startPointX, int startPointY) {
+
+		myColor color;
+
 		glLineWidth(10);
-		glColor3f(1, 1, 1);
+		glColor3fv(color.PrimaryColor);
 		glBegin(GL_LINE_LOOP);
 		{
 			for (int i = 0; i < size; i++) {
@@ -84,12 +101,13 @@ public :
 
 	void backgroundTexture() {
 		myCanvas canvas;
+		myColor color;
 
 		glPointSize(3);
 
 		canvas.applyCanvas();
 
-		glColor3ub(51, 51, 51);
+		glColor3ubv(color.SecondaryColor);
 
 		for (int i = canvas.orthoMin; i < canvas.orthoMax; i++) {
 			for (int j = canvas.orthoMin; j < canvas.orthoMax; j++) {
@@ -100,7 +118,7 @@ public :
 					}
 
 					if (j % 3 == 0) {
-						rectTexture(i,j);
+						rectTexture(i, j);
 					}
 				}
 			}
@@ -109,10 +127,10 @@ public :
 };
 
 void renderObject() {
-	glClear(GL_COLOR_BUFFER_BIT);
-
 	batikPattern batikObject;
 	myCanvas canvas;
+
+	glClear(GL_COLOR_BUFFER_BIT);
 
 	float posX = 0;
 	float posY = 0;
@@ -145,8 +163,8 @@ int main(int argc, char** argv) {
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
-	glutInitWindowSize(600, 600);
-	glutInitWindowPosition(500, 0);
+	glutInitWindowSize(canvas.windowWidth, canvas.windowWidth);
+	glutInitWindowPosition(canvas.windowPositionX, canvas.windowPositionY);
 	glutCreateWindow("TTS ~ Kelvin Kurniawan Oktavianto");
 
 	glutDisplayFunc(renderObject);
